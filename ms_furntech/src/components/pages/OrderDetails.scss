@@ -1,0 +1,393 @@
+.order-details-page {
+  color: #173a2f;
+}
+
+.order-details-back {
+  border: 0;
+  background: transparent;
+  color: #5f6d66;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 30px;
+  padding: 0;
+}
+
+.order-details-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(340px, 0.98fr);
+  gap: 24px;
+}
+
+.order-details-main,
+.order-details-side {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.order-details-card {
+  border: 1px solid #e5e0d8;
+  border-radius: 14px;
+  background: #fbfaf7;
+  padding: 26px 28px;
+}
+
+.order-details-eyebrow {
+  display: inline-block;
+  margin: 0;
+  border-top: 1px solid #6e756f;
+  padding-top: 5px;
+  color: #6e756f;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+
+.order-details-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  h2 {
+    margin: 10px 0 8px;
+    font-size: 32px;
+    line-height: 1;
+  }
+
+  span {
+    color: #6e756f;
+  }
+}
+
+.order-details-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.order-status {
+  border: 1px solid #f1b59c;
+  border-radius: 999px;
+  background: #fff0e9;
+  color: #c75c39 !important;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 8px 12px;
+}
+
+.order-button {
+  border: 1px solid #e5e0d8;
+  cursor: pointer;
+  min-height: 42px;
+  padding: 0 20px;
+  font-size: 16px;
+  font-weight: 800;
+
+  &--light {
+    background: #fbfaf7;
+    color: #173a2f;
+  }
+
+  &--dark {
+    background: #173a2f;
+    border-color: #173a2f;
+    color: #fff;
+  }
+}
+
+.order-timeline-card {
+  min-height: 488px;
+}
+
+.order-timeline {
+  margin-top: 26px;
+}
+
+.order-timeline__item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 32px 1fr auto;
+  gap: 12px;
+  min-height: 70px;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 14px;
+    top: 28px;
+    bottom: -28px;
+    width: 1px;
+    background: #2f7658;
+  }
+
+  &:last-child::before {
+    display: none;
+  }
+
+  strong {
+    display: block;
+    font-size: 16px;
+  }
+
+  p {
+    margin: 6px 0 0;
+    color: #6e756f;
+    font-size: 14px;
+  }
+
+  small {
+    align-self: center;
+    color: #c75c39;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+  }
+}
+
+.order-timeline__dot {
+  position: relative;
+  z-index: 1;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #2f7658;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+
+  img,
+  svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+  }
+
+  svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+  }
+}
+
+.order-timeline__item--current {
+  .order-timeline__dot {
+    background: #c75c39;
+    box-shadow: 0 0 0 6px #f4ded5;
+  }
+}
+
+.order-timeline__item--pending {
+  &::before {
+    background: #e5e0d8;
+  }
+
+  .order-timeline__dot {
+    background: #eeeae2;
+    border: 1px solid #cfd5d0;
+    color: #6e756f;
+  }
+
+  strong {
+    color: #6e756f;
+  }
+}
+
+.order-items-list {
+  margin-top: 18px;
+}
+
+.order-item {
+  display: grid;
+  grid-template-columns: 90px 1fr auto;
+  gap: 18px;
+  align-items: center;
+  border-bottom: 1px solid #e5e0d8;
+  padding: 18px 0;
+
+  img {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+  }
+
+  strong,
+  span,
+  p {
+    display: block;
+  }
+
+  strong {
+    font-size: 18px;
+  }
+
+  span {
+    color: #6e756f;
+    margin-top: 4px;
+  }
+
+  p {
+    margin: 8px 0 0;
+  }
+
+  &__price {
+    font-size: 20px;
+  }
+}
+
+.order-total {
+  margin-top: 18px;
+
+  div {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    color: #6e756f;
+    font-size: 16px;
+    margin-top: 12px;
+  }
+
+  strong {
+    color: #173a2f;
+  }
+
+  &__free {
+    color: #2f7658 !important;
+  }
+
+  &__cashback {
+    color: #c75c39 !important;
+  }
+
+  &__paid {
+    border-top: 1px solid #e5e0d8;
+    margin-top: 14px !important;
+    padding-top: 14px;
+    color: #173a2f !important;
+    font-size: 18px !important;
+    font-weight: 800;
+
+    strong {
+      font-size: 28px;
+    }
+  }
+}
+
+.order-customer,
+.order-payment {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 18px;
+
+  p {
+    margin: 4px 0 0;
+    color: #6e756f;
+    font-size: 13px;
+  }
+}
+
+.order-customer > span {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: #173a2f;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+}
+
+.order-profile-link {
+  border: 0;
+  background: transparent;
+  color: #c75c39;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 800;
+  margin-top: 24px;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.order-address-card {
+  h3 {
+    margin: 20px 0 6px;
+    font-size: 18px;
+  }
+
+  p {
+    margin: 6px 0;
+    color: #6e756f;
+  }
+}
+
+.order-eta {
+  background: #f7f3ec;
+  color: #6e756f;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 22px;
+  min-height: 36px;
+  padding: 0 14px;
+  font-size: 14px;
+}
+
+.order-payment > span {
+  width: 46px;
+  height: 46px;
+  background: #173a2f;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+.react-table-row--clickable {
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(23, 58, 47, 0.035);
+  }
+}
+
+@media (max-width: 1100px) {
+  .order-details-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .order-details-hero,
+  .order-details-actions {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .order-item {
+    grid-template-columns: 70px 1fr;
+
+    &__price {
+      grid-column: 2;
+    }
+  }
+}

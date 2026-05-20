@@ -1,0 +1,155 @@
+.team-page {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.team-page__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  p {
+    margin: 0;
+    color: #6e756f;
+    font-size: 18px;
+  }
+
+  button {
+    border: 0;
+    background: #173a2f;
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 50px;
+    padding: 0 24px;
+    font-size: 18px;
+    font-weight: 800;
+
+    span {
+      font-size: 26px;
+      font-weight: 400;
+      line-height: 1;
+    }
+  }
+}
+
+.team-card {
+  overflow-x: auto;
+  border: 1px solid #e5e0d8;
+  border-radius: 14px;
+  background: #fbfaf7;
+}
+
+.team-table {
+  width: 100%;
+  min-width: 980px;
+  border-collapse: collapse;
+  color: #173a2f;
+
+  th {
+    color: #6e756f;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    padding: 24px 30px 20px;
+    text-align: left;
+  }
+
+  td {
+    border-top: 1px solid #e5e0d8;
+    padding: 20px 30px;
+    vertical-align: middle;
+    font-size: 18px;
+  }
+}
+
+.team-member {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  img,
+  &__avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    flex: 0 0 46px;
+  }
+
+  img {
+    object-fit: cover;
+  }
+
+  &__avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #c75c39;
+    color: #fff;
+    font-weight: 800;
+  }
+
+  strong,
+  small {
+    display: block;
+  }
+
+  small {
+    color: #6e756f;
+    margin-top: 4px;
+  }
+}
+
+.team-email {
+  color: #6e756f;
+}
+
+.team-status {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  min-height: 38px;
+  padding: 0 14px;
+
+  &--active {
+    background: #eaf5ef;
+    border-color: #b7d7c8;
+    color: #2f7658;
+  }
+
+  &--away {
+    background: #edf0ed;
+    border-color: #cfd5d0;
+    color: #6e756f;
+  }
+}
+
+.team-actions {
+  border: 0;
+  background: transparent;
+  color: #173a2f;
+  cursor: pointer;
+  display: block;
+  font-size: 22px;
+  font-weight: 800;
+  margin-left: auto;
+}
+
+@media (max-width: 720px) {
+  .team-page__toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+
+    button {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+}

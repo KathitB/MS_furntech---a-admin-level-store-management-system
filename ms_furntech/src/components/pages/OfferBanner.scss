@@ -1,0 +1,254 @@
+.offer-banner-page {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.offer-banner-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  p {
+    margin: 0;
+    color: #6e756f;
+    font-size: 17px;
+  }
+
+  button {
+    border: 0;
+    background: #c75c39;
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 46px;
+    padding: 0 22px;
+    font-size: 16px;
+    font-weight: 800;
+
+    span {
+      font-size: 24px;
+      font-weight: 400;
+      line-height: 1;
+    }
+  }
+}
+
+.offer-banner-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(320px, 1fr));
+  gap: 26px;
+}
+
+.offer-banner-card {
+  overflow: hidden;
+  border: 1px solid #e5e0d8;
+  border-radius: 14px;
+  background: #fbfaf7;
+  color: #173a2f;
+
+  &__image {
+    position: relative;
+    height: 270px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(10, 24, 20, 0.05) 0%,
+        rgba(10, 24, 20, 0.1) 42%,
+        rgba(10, 24, 20, 0.68) 100%
+      );
+    }
+  }
+
+  &__label,
+  &__status,
+  &__copy {
+    position: absolute;
+    z-index: 1;
+  }
+
+  &__label {
+    top: 20px;
+    left: 18px;
+    border-radius: 4px;
+    background: rgba(69, 64, 58, 0.78);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    padding: 10px 14px;
+  }
+
+  &__status {
+    top: 20px;
+    right: 18px;
+    border: 1px solid;
+    border-radius: 999px;
+    font-size: 13px;
+    padding: 7px 12px;
+
+    &--live {
+      background: rgba(47, 118, 88, 0.18);
+      border-color: rgba(47, 118, 88, 0.35);
+      color: #2f7658;
+    }
+
+    &--scheduled {
+      background: rgba(239, 199, 94, 0.15);
+      border-color: rgba(156, 111, 16, 0.35);
+      color: #9c6f10;
+    }
+  }
+
+  &__copy {
+    left: 18px;
+    right: 18px;
+    bottom: 18px;
+    color: #fff;
+
+    h2,
+    p {
+      margin: 0;
+    }
+
+    h2 {
+      font-size: 26px;
+      line-height: 1.15;
+    }
+
+    p {
+      margin-top: 8px;
+      font-size: 16px;
+    }
+  }
+
+  &__footer {
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 0 22px;
+  }
+
+  &__dates,
+  &__actions {
+    display: flex;
+    align-items: center;
+  }
+
+  &__dates {
+    gap: 10px;
+    color: #6e756f;
+    font-size: 14px;
+
+    svg {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  &__actions {
+    gap: 18px;
+
+    button {
+      border: 0;
+      background: transparent;
+      color: #173a2f;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.9;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  &__manage {
+    min-height: 32px;
+    background: #173a2f !important;
+    color: #fff !important;
+    font-weight: 800;
+    padding: 0 14px !important;
+  }
+}
+
+.offer-banner-compose {
+  min-height: 350px;
+  border: 1px dashed #e0d7ca;
+  border-radius: 14px;
+  background: rgba(251, 250, 247, 0.35);
+  color: #6e756f;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  text-align: center;
+
+  span {
+    color: #5e6d65;
+    font-size: 42px;
+    line-height: 1;
+  }
+
+  strong {
+    color: #5e6d65;
+    font-size: 20px;
+  }
+
+  small {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 1150px) {
+  .offer-banner-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .offer-banner-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+
+    button {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  .offer-banner-card__footer {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 18px 22px;
+  }
+}

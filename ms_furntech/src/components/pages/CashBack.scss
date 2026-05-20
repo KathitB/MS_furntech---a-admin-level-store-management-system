@@ -1,0 +1,254 @@
+.cashback-page {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.cashback-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(220px, 1fr));
+  gap: 24px;
+}
+
+.cashback-stat,
+.cashback-card,
+.cashback-transactions {
+  border: 1px solid #e5e0d8;
+  border-radius: 14px;
+  background: #fbfaf7;
+  color: #173a2f;
+}
+
+.cashback-stat {
+  min-height: 172px;
+  padding: 28px 30px;
+
+  p,
+  h3,
+  span {
+    margin: 0;
+  }
+
+  p {
+    display: inline-block;
+    border-top: 1px solid currentColor;
+    padding-top: 5px;
+    color: #6e756f;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+  }
+
+  h3 {
+    margin-top: 18px;
+    font-size: 42px;
+    line-height: 1;
+  }
+
+  span {
+    display: block;
+    margin-top: 14px;
+    color: #6e756f;
+    font-size: 18px;
+
+    strong {
+      color: #2f7658;
+    }
+  }
+
+  &--issued {
+    position: relative;
+    overflow: hidden;
+    background: #bf5838;
+    color: #fff;
+
+    p,
+    span {
+      color: rgba(255, 255, 255, 0.86);
+    }
+
+    &::after {
+      content: "✦";
+      position: absolute;
+      right: -14px;
+      bottom: -18px;
+      color: rgba(255, 255, 255, 0.18);
+      font-size: 130px;
+      line-height: 1;
+    }
+  }
+}
+
+.cashback-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2.1fr) minmax(340px, 1fr);
+  gap: 24px;
+}
+
+.cashback-card {
+  padding: 28px 30px;
+
+  h2 {
+    margin: 8px 0 16px;
+    font-size: 28px;
+  }
+}
+
+.cashback-eyebrow {
+  display: inline-block;
+  margin: 0;
+  border-top: 1px solid #6e756f;
+  padding-top: 5px;
+  color: #6e756f;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.tier-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.tier-card {
+  min-height: 110px;
+  border: 1px solid #e5e0d8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px;
+
+  p {
+    margin: 16px 0 0;
+    color: #6e756f;
+    font-size: 15px;
+  }
+
+  strong {
+    color: #c75c39;
+    font-size: 30px;
+  }
+}
+
+.tier-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 81px;
+  height: 34px;
+  border: 1px solid;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+
+  &--silver {
+    background: #edf0ed;
+    border-color: #c8cec9;
+  }
+
+  &--gold {
+    background: #fff3d9;
+    border-color: #f2d48e;
+    color: #8c6200;
+  }
+
+  &--platinum {
+    background: #173a2f;
+    border-color: #173a2f;
+    color: #fff;
+  }
+}
+
+.cashback-transactions {
+  overflow-x: auto;
+
+  &__header {
+    min-width: 900px;
+    min-height: 94px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e5e0d8;
+    padding: 0 30px;
+
+    h2 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    button {
+      border: 0;
+      background: transparent;
+      color: #c75c39;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: 700;
+      text-decoration: underline;
+    }
+  }
+}
+
+.cashback-table {
+  width: 100%;
+  min-width: 900px;
+  border-collapse: collapse;
+
+  th {
+    color: #6e756f;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    padding: 20px 30px;
+    text-align: left;
+  }
+
+  td {
+    border-top: 1px solid #e5e0d8;
+    padding: 10px 30px;
+    font-size: 18px;
+    height: 56px;
+  }
+}
+
+.cashback-type {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  min-height: 38px;
+  padding: 0 14px;
+
+  &--earned {
+    background: #eaf5ef;
+    border-color: #b7d7c8;
+    color: #2f7658;
+  }
+
+  &--redeemed {
+    background: #fff0e9;
+    border-color: #f1b59c;
+    color: #c75c39;
+  }
+}
+
+.cashback-amount {
+  &--earned {
+    color: #2f7658;
+  }
+
+  &--redeemed {
+    color: #c75c39;
+  }
+}
+
+@media (max-width: 1150px) {
+  .cashback-summary,
+  .cashback-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,42 @@
+/* .mainApp {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  /* gap: clamp(18px, 4vh, 32px); */
+/* } */
+
+/* App.css */
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  /* overflow: hidden; Prevent page-level scrollbars */
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.mainApp {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh; /* Fill the viewport */
+  overflow: hidden; /* Hide overflow */
+}
+
+::selection {
+  color: white;
+  background: #e86841;
+}
+
+/* If PageShell is the direct child */
+.mainApp > * {
+  flex: 1;
+  min-height: 0; /* Allows child to shrink properly */
+}

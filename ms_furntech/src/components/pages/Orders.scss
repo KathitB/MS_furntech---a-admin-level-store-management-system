@@ -1,0 +1,149 @@
+.orders-page {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.orders-tabs {
+  align-self: flex-start;
+  display: flex;
+  overflow: hidden;
+  border: 1px solid #e5e0d8;
+  border-radius: 14px;
+  background: #fbfaf7;
+
+  button {
+    min-width: 140px;
+    height: 60px;
+    border: 0;
+    background: transparent;
+    color: #596861;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 700;
+
+    &.active {
+      background: #173a2f;
+      color: #fff;
+    }
+  }
+}
+
+.orders-card {
+  overflow-x: auto;
+  border: 1px solid #e5e0d8;
+  border-radius: 14px;
+  background: #fbfaf7;
+}
+
+.orders-table {
+  width: 100%;
+  min-width: 980px;
+  border-collapse: collapse;
+  color: #173a2f;
+
+  th {
+    color: #6e756f;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    padding: 24px 30px 20px;
+    text-align: left;
+  }
+
+  td {
+    border-top: 1px solid #e5e0d8;
+    padding: 14px 30px;
+    vertical-align: middle;
+    font-size: 18px;
+
+    strong {
+      font-weight: 800;
+    }
+  }
+
+  &__id {
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 14px;
+  }
+
+  &__customer {
+    strong,
+    span {
+      display: block;
+    }
+
+    span {
+      color: #6e756f;
+      font-size: 15px;
+      margin-top: 4px;
+    }
+  }
+
+  &__arrow {
+    color: #596861;
+    display: block;
+    font-size: 24px;
+    text-align: right;
+  }
+}
+
+.payment-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 54px;
+  height: 26px;
+  border: 1px solid #e5e0d8;
+  border-radius: 5px;
+  background: #f1eee7;
+  color: #173a2f;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 13px;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  min-height: 38px;
+  padding: 0 14px;
+
+  &--in-transit {
+    background: #fff0e9;
+    border-color: #f1b59c;
+    color: #c95a38;
+  }
+
+  &--processing {
+    background: #fff6dd;
+    border-color: #f1d28a;
+    color: #9b6c00;
+  }
+
+  &--delivered {
+    background: #eaf5ef;
+    border-color: #b7d7c8;
+    color: #2f7658;
+  }
+
+  &--cancelled {
+    background: #fff0f2;
+    border-color: #ffb8c0;
+    color: #ff3344;
+  }
+}
+
+@media (max-width: 720px) {
+  .orders-tabs {
+    width: 100%;
+    overflow-x: auto;
+
+    button {
+      min-width: 116px;
+    }
+  }
+}
