@@ -40,3 +40,9 @@ body,
   flex: 1;
   min-height: 0; /* Allows child to shrink properly */
 }
+/* 
+* {
+  font-family: "Cabinet Grotesk", serif;
+  box-sizing: border-box;
+  font-weight: 500;
+} */

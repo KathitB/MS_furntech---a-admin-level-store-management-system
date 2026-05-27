@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import SideBar, { menuItems } from "./SideBar";
 import DashBoard from "./pages/DashBoard";
 import Orders from "./pages/Orders";
@@ -7,6 +7,11 @@ import Team from "./pages/Team";
 import OfferBanner from "./pages/OfferBanner";
 import OrderDetails from "./pages/OrderDetails";
 import "./PageShell.scss";
+import Customers from "./pages/Customers";
+import Products from "./pages/Products";
+import Analytics from "./pages/Analytics";
+import Categories from "./pages/Categories";
+import Notifications from "./pages/Notifications";
 
 const searchableData = {
   dashboard: [
@@ -39,6 +44,16 @@ const searchableData = {
     "Rahul Nair",
     "Mumbai premium customers",
   ],
+  categories: [
+    "Living Room",
+    "Bedroom",
+    "Dining & Kitchen",
+    "Home Office",
+    "Outdoor & Patio",
+    "Mid-Century Modern",
+    "Hardwood",
+    "Sale & Clearance",
+  ],
   products: [
     "Luna Sofa",
     "Aster Dining Table",
@@ -56,6 +71,13 @@ const searchableData = {
     "Push campaigns",
     "Release 2.4",
     "Mobile checkout",
+  ],
+  notifications: [
+    "App notification",
+    "Home Page",
+    "Checkout",
+    "Scheduled",
+    "Sent",
   ],
 };
 
@@ -105,6 +127,16 @@ const PageShell = () => {
     setSelectedOrderId(order.orderId || order.order || "MS-10247");
   };
 
+  const handleCustomerSelect = () => {
+    const customerItem = menuItems.find((item) => item.id === "customers");
+
+    if (customerItem) {
+      setActiveItem(customerItem);
+    }
+
+    setSearchTerm("");
+  };
+
   const handleBackToOrders = () => {
     const ordersItem = menuItems.find((item) => item.id === "orders");
 
@@ -117,7 +149,9 @@ const PageShell = () => {
 
   const renderSelectedPage = () => {
     if (selectedOrderId) {
-      return <OrderDetails orderId={selectedOrderId} onBack={handleBackToOrders} />;
+      return (
+        <OrderDetails orderId={selectedOrderId} onBack={handleBackToOrders} />
+      );
     }
 
     if (activeItem.id === "dashboard") {
@@ -125,7 +159,9 @@ const PageShell = () => {
     }
 
     if (activeItem.id === "orders") {
-      return <Orders searchTerm={searchTerm} onOrderSelect={handleOrderSelect} />;
+      return (
+        <Orders searchTerm={searchTerm} onOrderSelect={handleOrderSelect} />
+      );
     }
 
     if (activeItem.id === "cashback") {
@@ -138,6 +174,34 @@ const PageShell = () => {
 
     if (activeItem.id === "offer-banners") {
       return <OfferBanner searchTerm={searchTerm} />;
+    }
+
+    if (activeItem.id === "customers") {
+      return (
+        <Customers
+          searchTerm={searchTerm}
+          onCustomerSelect={handleCustomerSelect}
+        />
+      );
+    }
+    if (activeItem.id === "products") {
+      return <Products searchTerm={searchTerm} />;
+    }
+
+    if (activeItem.id === "categories") {
+      return <Categories searchTerm={searchTerm} />;
+    }
+
+    if (activeItem.id === "analytics") {
+      return <Analytics searchTerm={searchTerm} />;
+    }
+
+    if (activeItem.id === "mobile-app") {
+      return <DashBoard onOrderSelect={handleOrderSelect} />;
+    }
+
+    if (activeItem.id === "notifications") {
+      return <Notifications searchTerm={searchTerm} />;
     }
 
     return (

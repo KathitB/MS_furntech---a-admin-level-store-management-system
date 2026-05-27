@@ -1,0 +1,244 @@
+// ─────────────────────────────────────────────
+// Customers Page — SCSS
+// Warm-minimal dashboard aesthetic
+// ─────────────────────────────────────────────
+
+// ── Tokens ───────────────────────────────────
+$bg-page: #fbfaf7;
+$bg-card: #ffffff;
+$bg-avatar: #2d4a3e; // dark forest green
+
+$text-primary: #1a1a1a;
+$text-secondary: #6b6b6b;
+$text-label: #9a9a9a;
+
+$color-cashback: #c0392b; // terracotta-red used for cashback figures
+$color-ltv: #1a1a1a;
+
+// Tier pill colours
+$tier-platinum-bg: #2d4a3e;
+$tier-platinum-text: #ffffff;
+$tier-gold-bg: #f5e6c8;
+$tier-gold-text: #7a5c1e;
+$tier-silver-bg: #f0f0ee;
+$tier-silver-text: #5a5a5a;
+$tier-silver-border: #d0d0cc;
+
+$border-color: #e8e4dc;
+$border-radius-card: 12px;
+$border-radius-pill: 999px;
+
+$font-family: "DM Sans", "Helvetica Neue", sans-serif;
+
+.customers-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 0px 0px;
+  background-color: $bg-page;
+  min-height: 100vh;
+  font-family: $font-family;
+  color: $text-primary;
+  box-sizing: border-box;
+}
+
+.customer-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 520px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.customer-metric-card {
+  background: $bg-card;
+  border: 1px solid $border-color;
+  border-radius: $border-radius-card;
+  padding: 20px 24px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .metric-card__topline {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: $text-label;
+  }
+
+  .metric-card__value-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+
+    h3 {
+      margin: 0;
+      font-size: 30px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: $text-primary;
+      line-height: 1;
+    }
+  }
+}
+
+// ── Customers Table Card ──────────────────────
+.customers-card {
+  background: $bg-card;
+  border: 1px solid $border-color;
+  border-radius: $border-radius-card;
+  overflow: hidden;
+}
+
+// ── Table Base ───────────────────────────────
+.customers-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  // Header row
+  thead tr {
+    border-bottom: 1px solid $border-color;
+
+    th {
+      padding: 14px 20px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: $text-label;
+      text-align: left;
+      white-space: nowrap;
+      background: $bg-card;
+    }
+  }
+
+  // Body rows
+  tbody tr {
+    border-bottom: 1px solid $border-color;
+    transition: background 0.15s ease;
+    cursor: pointer;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background-color: #faf8f4;
+    }
+
+    td {
+      padding: 16px 20px;
+      font-size: 14px;
+      color: $text-primary;
+      vertical-align: middle;
+    }
+  }
+}
+
+// ── Customer Cell ─────────────────────────────
+.customers-table__customer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.customers-table__avatar {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background-color: $bg-avatar;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+.customers-table__customer-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  strong {
+    font-size: 14px;
+    font-weight: 600;
+    color: $text-primary;
+    line-height: 1.2;
+  }
+
+  span {
+    font-size: 12.5px;
+    color: $text-secondary;
+    line-height: 1.2;
+  }
+}
+
+// ── Orders Cell ───────────────────────────────
+.customers-table__orders {
+  font-size: 14px;
+  color: $text-primary;
+}
+
+// ── LTV Cell ──────────────────────────────────
+.customers-table__amount {
+  font-size: 14px;
+  font-weight: 600;
+  color: $color-ltv;
+}
+
+// ── Cashback Cell ─────────────────────────────
+.customers-table__cashback {
+  font-size: 14px;
+  font-weight: 500;
+  color: $color-cashback;
+}
+
+// ── Tier Pills ────────────────────────────────
+.tier-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 14px;
+  border-radius: $border-radius-pill;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+
+  &--platinum {
+    background-color: $tier-platinum-bg;
+    color: $tier-platinum-text;
+  }
+
+  &--gold {
+    background-color: $tier-gold-bg;
+    color: $tier-gold-text;
+    border: 1px solid darken($tier-gold-bg, 10%);
+  }
+
+  &--silver {
+    background-color: $tier-silver-bg;
+    color: $tier-silver-text;
+    border: 1px solid $tier-silver-border;
+  }
+}
+
+// ── Arrow Cell ────────────────────────────────
+.customers-table__arrow {
+  font-size: 14px;
+  color: $text-label;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}

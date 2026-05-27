@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./SideBar.scss";
 
 const iconProps = {
@@ -58,6 +58,13 @@ const icons = {
       <rect x="4" y="3" width="16" height="18" rx="2" />
     </svg>
   ),
+  categories: (
+    <svg {...iconProps}>
+      <circle cx="12" cy="8" r="3" />
+      <path d="M6 20a6 6 0 0 1 12 0" />
+      <rect x="4" y="3" width="16" height="18" rx="2" />
+    </svg>
+  ),
   products: (
     <svg {...iconProps}>
       <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z" />
@@ -75,6 +82,12 @@ const icons = {
     </svg>
   ),
   "mobile-app": (
+    <svg {...iconProps}>
+      <rect x="8" y="3" width="8" height="18" rx="2" />
+      <path d="M11 17h2" />
+    </svg>
+  ),
+  notifications: (
     <svg {...iconProps}>
       <rect x="8" y="3" width="8" height="18" rx="2" />
       <path d="M11 17h2" />
@@ -133,6 +146,15 @@ export const menuItems = [
     header: "Customers",
     subheader: "Search customer profiles, segments, and purchase history.",
   },
+
+  {
+    id: "categories",
+    label: "Categories",
+    banner: "Catalog taxonomy - Rooms, filters, and collections",
+    header: "Categories",
+    subheader:
+      "Manage room navigation, product filters, materials, and app collections.",
+  },
   {
     id: "products",
     label: "Products",
@@ -152,6 +174,13 @@ export const menuItems = [
     label: "Mobile App",
     banner: " iOS · Customer experience · 5 screens",
     header: "Mobile App",
+    subheader: "Monitor app engagement, releases, and customer experience.",
+  },
+  {
+    id: "notifications",
+    label: "Notifications",
+    banner: "App Notifications",
+    header: "Notifications",
     subheader: "Monitor app engagement, releases, and customer experience.",
   },
   //   {

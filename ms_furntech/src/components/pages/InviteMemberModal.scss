@@ -1,0 +1,421 @@
+// ─────────────────────────────────────────────
+// InviteMemberModal — SCSS
+// Follows MS Interiors design system:
+//   bg:      #fbfaf7 / #f6f4ef
+//   primary: #173a2f
+//   accent:  #c75c39
+//   border:  #e5e0d8
+//   muted:   #6e756f
+// ─────────────────────────────────────────────
+
+// ── Overlay ──────────────────────────────────
+.im-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(23, 58, 47, 0.38);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: im-fade-in 0.18s ease;
+}
+
+@keyframes im-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// ── Modal Panel ──────────────────────────────
+.im-modal {
+  background: #fbfaf7;
+  border: 1px solid #e5e0d8;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 700px;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 24px 64px rgba(23, 58, 47, 0.18);
+  animation: im-slide-up 0.22s cubic-bezier(0.34, 1.3, 0.64, 1);
+
+  // Custom scrollbar
+  scrollbar-width: thin;
+  scrollbar-color: #e5e0d8 transparent;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #e5e0d8;
+    border-radius: 99px;
+  }
+}
+
+@keyframes im-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+// ── Header ───────────────────────────────────
+.im-modal__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 28px 28px 0;
+  border-top: 11px solid #173a2f;
+}
+
+.im-modal__eyebrow {
+  margin: 0 0 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #6e756f;
+  border-top: 1px solid #cad4cb;
+}
+
+.im-modal__title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+  color: #173a2f;
+  line-height: 1.15;
+}
+
+.im-modal__close {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border: 1px solid #e5e0d8;
+  border-radius: 8px;
+  background: #e80b0b;
+  color: #f9fdf9;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    border-color 0.15s,
+    color 0.15s;
+  margin-top: 2px;
+
+  &:hover {
+    border-color: #173a2f;
+    color: #173a2f;
+  }
+}
+
+// ── Avatar Preview Row ────────────────────────
+.im-modal__avatar-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 28px;
+  border-bottom: 1px solid #e5e0d8;
+  margin: 20px 0 0;
+}
+
+.im-modal__avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #c75c39;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
+  transition: background 0.2s;
+}
+
+.im-modal__avatar-placeholder {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 22px;
+  font-weight: 400;
+}
+
+.im-modal__avatar-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+
+  strong {
+    font-size: 16px;
+    font-weight: 700;
+    color: #173a2f;
+    line-height: 1.2;
+  }
+
+  small {
+    font-size: 13px;
+    color: #6e756f;
+  }
+}
+
+// ── Form Body ─────────────────────────────────
+.im-form {
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.im-form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+// ── Field ─────────────────────────────────────
+.im-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  &--error {
+    .im-field__input,
+    .im-field__select {
+      border-color: #c75c39 !important;
+      background: #fdf5f3;
+    }
+
+    .im-field__label {
+      color: #c75c39;
+    }
+  }
+}
+
+.im-field__label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #6e756f;
+  transition: color 0.15s;
+}
+
+.im-field__input {
+  height: 48px;
+  border: 1px solid #e5e0d8;
+  border-radius: 8px;
+  background: #fff;
+  color: #173a2f;
+  font-size: 15px;
+  font-family: inherit;
+  padding: 0 14px;
+  outline: none;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+
+  &::placeholder {
+    color: #b0aea8;
+  }
+
+  &:focus {
+    border-color: #173a2f;
+    box-shadow: 0 0 0 3px rgba(23, 58, 47, 0.08);
+  }
+}
+
+// ── Select ────────────────────────────────────
+.im-field__select-wrap {
+  position: relative;
+}
+
+.im-field__select {
+  width: 100%;
+  height: 48px;
+  border: 1px solid #e5e0d8;
+  border-radius: 8px;
+  background: #fff;
+  color: #173a2f;
+  font-size: 15px;
+  font-family: inherit;
+  padding: 0 36px 0 14px;
+  outline: none;
+  appearance: none;
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+
+  &:focus {
+    border-color: #173a2f;
+    box-shadow: 0 0 0 3px rgba(23, 58, 47, 0.08);
+  }
+
+  option[value=""][disabled] {
+    color: #b0aea8;
+  }
+}
+
+.im-field__chevron {
+  position: absolute;
+  right: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: #6e756f;
+  pointer-events: none;
+}
+
+// ── Validation error ──────────────────────────
+.im-field__error {
+  font-size: 12px;
+  color: #c75c39;
+  font-weight: 600;
+}
+
+// ── Hint (backend value preview) ─────────────
+.im-field__hint {
+  font-size: 11.5px;
+  color: #6e756f;
+
+  strong {
+    color: #173a2f;
+    font-family: "Courier New", monospace;
+  }
+}
+
+// ── Auto-generated row ────────────────────────
+.im-autogen {
+  display: flex;
+  gap: 24px;
+  padding: 14px 16px;
+  background: #f2efe9;
+  border: 1px solid #e5e0d8;
+  border-radius: 8px;
+}
+
+.im-autogen__item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.im-autogen__label {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #6e756f;
+}
+
+.im-autogen__value {
+  font-size: 13.5px;
+  color: #173a2f;
+  font-weight: 600;
+}
+
+// ── Footer ────────────────────────────────────
+.im-modal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 0 28px 28px;
+}
+
+.im-modal__btn {
+  height: 48px;
+  padding: 0 24px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition:
+    background 0.15s,
+    border-color 0.15s,
+    color 0.15s,
+    opacity 0.15s;
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  &--ghost {
+    background: transparent;
+    border-color: #e5e0d8;
+    color: #6e756f;
+
+    &:not(:disabled):hover {
+      border-color: #173a2f;
+      color: #173a2f;
+    }
+  }
+
+  &--primary {
+    background: #173a2f;
+    border-color: #173a2f;
+    color: #fff;
+
+    &:not(:disabled):hover {
+      background: #0f261e;
+    }
+
+    &:not(:disabled):active {
+      // background: darken(#173a2f, 6%);
+      background-color: rgba(23, 58, 47, 0.06);
+      // color.scale($color, $lightness: -37.7777777778%)
+      // color.adjust($color, $lightness: -6%)
+    }
+  }
+}
+
+// ── Mobile ────────────────────────────────────
+@media (max-width: 540px) {
+  .im-modal {
+    border-radius: 12px;
+  }
+
+  .im-modal__header {
+    padding: 22px 20px 0;
+  }
+
+  .im-modal__avatar-row {
+    padding: 16px 20px;
+  }
+
+  .im-form {
+    padding: 20px 20px;
+  }
+
+  .im-form__row {
+    grid-template-columns: 1fr;
+  }
+
+  .im-modal__footer {
+    padding: 0 20px 22px;
+    flex-direction: column-reverse;
+
+    .im-modal__btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+}
