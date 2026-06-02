@@ -239,6 +239,50 @@
   }
 }
 
+.im-field__input[type="file"] {
+  height: auto;
+  min-height: 48px;
+  padding: 12px 14px;
+}
+
+.im-field__image-preview-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.im-field__image-preview {
+  width: 100%;
+  max-height: 180px;
+  object-fit: cover;
+  border: 1px solid #e5e0d8;
+  border-radius: 8px;
+  background: #fff;
+  display: block;
+}
+
+.im-field__image-remove {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 50%;
+  background: #e80b0b;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background: #b90707;
+  }
+}
+
 // ── Select ────────────────────────────────────
 .im-field__select-wrap {
   position: relative;

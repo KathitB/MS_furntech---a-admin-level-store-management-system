@@ -1,6 +1,6 @@
 // import { useState } from "react";
 import styles from "./loginpage.module.scss";
-import furnitureLogo from "../assets/furniture-svgrepo-com.svg";
+import furnitureLogo from "../assets/furniture-14-svgrepo-com.svg";
 import eyeOpen from "../assets/eye-open.svg";
 import eyeClose from "../assets/eye-close.svg";
 // import { useAuthsStore } from "./store/authStore";
@@ -100,7 +100,7 @@ export default function LoginPage() {
       <section className={styles.loginHero}>
         <div className={styles.brand}>
           {/* <img className={styles.brandMark} src={furnitureLogo} alt="Furna" /> */}
-          <span className={styles.brandText}>Furna</span>
+          <span className={styles.brandText}>MS FurnTech</span>
         </div>
         {/* <h1>Furna App</h1> */}
         <p>Design your home the way you want.</p>

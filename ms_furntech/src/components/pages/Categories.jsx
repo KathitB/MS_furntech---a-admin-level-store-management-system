@@ -615,10 +615,13 @@ const Categories = ({ searchTerm = "" }) => {
     if (!selectedCategory) return;
 
     try {
-      const response = await apiRequest(`/api/category/${selectedCategory.id}`, {
-        method: "PATCH",
-        body: JSON.stringify(payload),
-      });
+      const response = await apiRequest(
+        `/api/category/${selectedCategory.id}`,
+        {
+          method: "PATCH",
+          body: JSON.stringify(payload),
+        },
+      );
       const updatedCategory = formatCategory(
         getResponseCategory(response, {
           ...selectedCategory,
@@ -677,7 +680,6 @@ const Categories = ({ searchTerm = "" }) => {
 
   // const columns = useMemo(
 
-
   //   () => [
   //     {
   //       Header: "Category",
@@ -712,74 +714,74 @@ const Categories = ({ searchTerm = "" }) => {
   // );
 
   const columns = useMemo(
-  () => [
-    {
-      accessorKey: "name",
-      header: "Category",
-    },
-    {
-      accessorKey: "description",
-      header: "Description",
-      cell: ({ row }) => row.original.description || "-",
-    },
-    {
-      accessorKey: "status",
-      header: "Status",
-      cell: ({ row }) => (
-        <span
-          className={
-            row.original.status ? "status--active" : "status--inactive"
-          }
-        >
-          {row.original.status ? "Active" : "Inactive"}
-        </span>
-      ),
-    },
-    {
-      accessorKey: "createdAt",
-      header: "Created At",
-      cell: ({ row }) =>
-        new Date(row.original.createdAt).toLocaleDateString("en-IN", {
-          day: "numeric",
-          month: "short",
-          year: "numeric",
-        }),
-    },
-    {
-      id: "actions",
-      header: "Actions",
-      cell: ({ row }) => (
-        <div className="team-actions">
-          <button
-            className="team-actions__button"
-            type="button"
-            aria-label={`Edit ${row.original.name}`}
-            onClick={() => openEditModal(row.original)}
+    () => [
+      {
+        accessorKey: "name",
+        header: "Category",
+      },
+      {
+        accessorKey: "description",
+        header: "Description",
+        cell: ({ row }) => row.original.description || "-",
+      },
+      {
+        accessorKey: "status",
+        header: "Status",
+        cell: ({ row }) => (
+          <span
+            className={
+              row.original.status ? "status--active" : "status--inactive"
+            }
           >
-            <img src={editIcon} alt="" />
-          </button>
-          <button
-            className="team-actions__button team-actions__button--delete"
-            type="button"
-            aria-label={`Delete ${row.original.name}`}
-            onClick={() => setCategoryToDelete(row.original)}
-          >
-            <img src={deleteIcon} alt="" />
-          </button>
-        </div>
-      ),
-    },
-  ],
-  [],
-);
+            {row.original.status ? "Active" : "Inactive"}
+          </span>
+        ),
+      },
+      {
+        accessorKey: "createdAt",
+        header: "Created At",
+        cell: ({ row }) =>
+          new Date(row.original.createdAt).toLocaleDateString("en-IN", {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+          }),
+      },
+      {
+        id: "actions",
+        header: "Actions",
+        cell: ({ row }) => (
+          <div className="team-actions">
+            <button
+              className="team-actions__button"
+              type="button"
+              aria-label={`Edit ${row.original.name}`}
+              onClick={() => openEditModal(row.original)}
+            >
+              <img src={editIcon} alt="" />
+            </button>
+            <button
+              className="team-actions__button team-actions__button--delete"
+              type="button"
+              aria-label={`Delete ${row.original.name}`}
+              onClick={() => setCategoryToDelete(row.original)}
+            >
+              <img src={deleteIcon} alt="" />
+            </button>
+          </div>
+        ),
+      },
+    ],
+    [],
+  );
   return (
     <div className="categories-page">
       <div className="categories-toolbar">
         <div>
-          <p>Primary navigation, filters, materials, and catalog campaigns.</p>
-          <strong>
+          {/* <p>Primary navigation, filters, materials, and catalog campaigns.</p>ss */}
+          {/* <strong>
             {loading ? "Loading..." : `${activeCount} categories`}
-          </strong>
+          </strong> */}
         </div>
         <button type="button" onClick={openCreateModal}>
           <span>+</span>
@@ -791,7 +793,7 @@ const Categories = ({ searchTerm = "" }) => {
         <div className="categories-section__header categories-section__header--with-filters">
           <div>
             <p>Room-Based Categories</p>
-            <h2>Primary Navigation</h2>
+            <h2>Broad Categories</h2>
           </div>
 
           <div className="categories-filter-bar" aria-label="Category filters">

@@ -31,7 +31,7 @@ function App() {
         <Route path="/" element={<LoginPage />} />
 
         <Route
-          path="/dashboard"
+          path="/dashboard/*"
           element={
             <ProtectedRoute>
               <PageShell />

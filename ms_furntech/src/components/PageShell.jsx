@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import SideBar, { menuItems } from "./SideBar";
 import DashBoard from "./pages/DashBoard";
 import Orders from "./pages/Orders";
@@ -12,6 +13,7 @@ import Products from "./pages/Products";
 import Analytics from "./pages/Analytics";
 import Categories from "./pages/Categories";
 import Notifications from "./pages/Notifications";
+import AddProductPage from "./pages/AddProductPage";
 
 const searchableData = {
   dashboard: [
@@ -90,17 +92,32 @@ const searchableData = {
 //   });
 
 const PageShell = () => {
-  const [activeItem, setActiveItem] = useState(menuItems[0]);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const productsItem = menuItems.find((item) => item.id === "products");
+  const isAddProductPage = location.pathname === "/dashboard/products/add";
+  const [activeItem, setActiveItem] = useState(
+    isAddProductPage && productsItem ? productsItem : menuItems[0],
+  );
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedOrderId, setSelectedOrderId] = useState(null);
-  const headerBanner = selectedOrderId ? "ORDER MANAGEMENT" : activeItem.banner;
-  const headerTitle = selectedOrderId ? "Order Details" : activeItem.header;
+  const currentItem = isAddProductPage && productsItem ? productsItem : activeItem;
+  const headerBanner = selectedOrderId
+    ? "ORDER MANAGEMENT"
+    : isAddProductPage
+      ? "PRODUCT MANAGEMENT"
+      : currentItem.banner;
+  const headerTitle = selectedOrderId
+    ? "Order Details"
+    : isAddProductPage
+      ? "Add Product"
+      : currentItem.header;
   const searchPlaceholder = selectedOrderId
     ? "Search order details"
-    : `Search ${activeItem.label.toLowerCase()}`;
+    : `Search ${currentItem.label.toLowerCase()}`;
 
   const filteredResults = useMemo(() => {
-    const currentItems = searchableData[activeItem.id] || [];
+    const currentItems = searchableData[currentItem.id] || [];
     const query = searchTerm.trim().toLowerCase();
 
     if (!query) {
@@ -108,9 +125,10 @@ const PageShell = () => {
     }
 
     return currentItems.filter((item) => item.toLowerCase().includes(query));
-  }, [activeItem.id, searchTerm]);
+  }, [currentItem.id, searchTerm]);
 
   const handleMenuChange = (item) => {
+    navigate("/dashboard");
     setActiveItem(item);
     setSearchTerm("");
     setSelectedOrderId(null);
@@ -147,7 +165,21 @@ const PageShell = () => {
     setSelectedOrderId(null);
   };
 
+  const handleBackToProducts = () => {
+    if (productsItem) {
+      setActiveItem(productsItem);
+    }
+
+    setSearchTerm("");
+    setSelectedOrderId(null);
+    navigate("/dashboard");
+  };
+
   const renderSelectedPage = () => {
+    if (isAddProductPage) {
+      return <AddProductPage onBack={handleBackToProducts} />;
+    }
+
     if (selectedOrderId) {
       return (
         <OrderDetails orderId={selectedOrderId} onBack={handleBackToOrders} />
@@ -233,7 +265,7 @@ const PageShell = () => {
 
   return (
     <div className="page-shell">
-      <SideBar activeItemId={activeItem.id} onMenuChange={handleMenuChange} />
+      <SideBar activeItemId={currentItem.id} onMenuChange={handleMenuChange} />
 
       <div className="page-shell__main">
         <header className="page-shell__header">
