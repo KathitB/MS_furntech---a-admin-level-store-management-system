@@ -429,6 +429,21 @@
       // color.adjust($color, $lightness: -6%)
     }
   }
+
+  @mixin hide-scrollbar {
+    -ms-overflow-style: none; // Hides scrollbar in Internet Explorer and Edge
+    scrollbar-width: none; // Hides scrollbar in Firefox
+
+    &::-webkit-scrollbar {
+      display: none; // Hides scrollbar in Chrome, Safari, and Opera
+    }
+  }
+
+  // How to use it on an element
+  .scrollable-container {
+    overflow-y: auto; // Ensures content can still be scrolled vertically
+    @include hide-scrollbar; // Applies the scrollbar-hiding styles
+  }
 }
 
 // ── Mobile ────────────────────────────────────

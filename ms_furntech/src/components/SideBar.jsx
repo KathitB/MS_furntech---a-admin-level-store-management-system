@@ -229,7 +229,7 @@ const SideBar = ({ activeItemId, onMenuChange }) => {
       </nav>
 
       <div className="sidebar__switch">
-        <p>SWITCH VIEW</p>
+        {/* <p>SWITCH VIEW</p> */}
         <div className="sidebar__switch-buttons">
           <button
             type="button"
@@ -238,13 +238,13 @@ const SideBar = ({ activeItemId, onMenuChange }) => {
           >
             Admin
           </button>
-          <button
+          {/* <button
             type="button"
             className={viewMode === "customer" ? "active" : ""}
             onClick={() => setViewMode("customer")}
           >
             Manager
-          </button>
+          </button> */}
         </div>
       </div>
 

@@ -96,21 +96,29 @@ const PageShell = () => {
   const navigate = useNavigate();
   const productsItem = menuItems.find((item) => item.id === "products");
   const isAddProductPage = location.pathname === "/dashboard/products/add";
+  const productEditMatch = location.pathname.match(
+    /^\/dashboard\/products\/([^/]+)\/edit$/,
+  );
+  const editingProductId = productEditMatch?.[1] || "";
+  const isProductFormPage = isAddProductPage || Boolean(editingProductId);
   const [activeItem, setActiveItem] = useState(
-    isAddProductPage && productsItem ? productsItem : menuItems[0],
+    isProductFormPage && productsItem ? productsItem : menuItems[0],
   );
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedOrderId, setSelectedOrderId] = useState(null);
-  const currentItem = isAddProductPage && productsItem ? productsItem : activeItem;
+  const currentItem =
+    isProductFormPage && productsItem ? productsItem : activeItem;
   const headerBanner = selectedOrderId
     ? "ORDER MANAGEMENT"
-    : isAddProductPage
+    : isProductFormPage
       ? "PRODUCT MANAGEMENT"
       : currentItem.banner;
   const headerTitle = selectedOrderId
     ? "Order Details"
     : isAddProductPage
       ? "Add Product"
+      : editingProductId
+        ? "Update Product"
       : currentItem.header;
   const searchPlaceholder = selectedOrderId
     ? "Search order details"
@@ -176,8 +184,14 @@ const PageShell = () => {
   };
 
   const renderSelectedPage = () => {
-    if (isAddProductPage) {
-      return <AddProductPage onBack={handleBackToProducts} />;
+    if (isProductFormPage) {
+      return (
+        <AddProductPage
+          productId={editingProductId}
+          initialProduct={location.state?.product}
+          onBack={handleBackToProducts}
+        />
+      );
     }
 
     if (selectedOrderId) {

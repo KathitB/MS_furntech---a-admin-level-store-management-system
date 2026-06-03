@@ -39,9 +39,29 @@ const BOOLEAN_FIELDS = [
 const getCategoryList = (response) =>
   response?.data?.categories || response?.data || response?.categories || [];
 
+const getProductFromResponse = (response) =>
+  response?.data?.product || response?.data || response?.product || null;
+
 const formatCategory = (category) => ({
   id: category?._id || category?.id || "",
   name: category?.name || "Untitled category",
+});
+
+const getFormFromProduct = (product) => ({
+  name: String(product?.name || ""),
+  description: String(product?.description || ""),
+  status: product?.status !== false,
+  categoryId: String(product?.categoryId?._id || product?.categoryId || ""),
+  discount: Boolean(product?.discount),
+  discountPercentage: product?.discountPercentage ?? 0,
+  productDimensions: String(product?.productDimensions || ""),
+  productImage: String(product?.productImage || ""),
+  productPrice: product?.productPrice ?? "",
+  productQuantity: product?.productQuantity ?? "",
+  productCode: String(product?.productCode || ""),
+  productStockAvailability: product?.productStockAvailability !== false,
+  productCustomizationOptions: Boolean(product?.productCustomizationOptions),
+  productMaterial: String(product?.productMaterial || ""),
 });
 
 const ToggleField = ({ label, checked, onChange, onText, offText }) => (
@@ -62,10 +82,12 @@ const ToggleField = ({ label, checked, onChange, onText, offText }) => (
   </label>
 );
 
-const AddProductPage = ({ onBack }) => {
+const AddProductPage = ({ productId = "", initialProduct = null, onBack }) => {
+  const isUpdateMode = Boolean(productId);
   const [form, setForm] = useState(EMPTY_FORM);
   const [categories, setCategories] = useState([]);
   const [loadingCategories, setLoadingCategories] = useState(true);
+  const [loadingProduct, setLoadingProduct] = useState(Boolean(productId));
   const [categoryError, setCategoryError] = useState("");
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
@@ -85,6 +107,41 @@ const AddProductPage = ({ onBack }) => {
 
     fetchCategories();
   }, []);
+
+  useEffect(() => {
+    if (!productId) {
+      setForm(EMPTY_FORM);
+      setLoadingProduct(false);
+      return;
+    }
+
+    if (initialProduct) {
+      setForm(getFormFromProduct(initialProduct));
+      setLoadingProduct(false);
+      return;
+    }
+
+    const fetchProduct = async () => {
+      setLoadingProduct(true);
+
+      try {
+        const response = await apiRequest(`/api/product/${productId}`);
+        const product = getProductFromResponse(response);
+
+        if (product) {
+          setForm(getFormFromProduct(product));
+        }
+      } catch (error) {
+        console.error(error);
+        alert(error.message || "Failed to load product");
+        onBack();
+      } finally {
+        setLoadingProduct(false);
+      }
+    };
+
+    fetchProduct();
+  }, [initialProduct, onBack, productId]);
 
   const selectedCategoryLabel = useMemo(() => {
     const selected = categories.find(
@@ -112,10 +169,12 @@ const AddProductPage = ({ onBack }) => {
     if (!form.name.trim()) nextErrors.name = "Product name is required.";
     if (!form.categoryId) nextErrors.categoryId = "Category is required.";
     if (!form.productPrice) nextErrors.productPrice = "Price is required.";
-    if (!form.productQuantity)
+    if (!form.productQuantity) {
       nextErrors.productQuantity = "Quantity is required.";
-    if (!form.productCode.trim())
+    }
+    if (!form.productCode.trim()) {
       nextErrors.productCode = "Product code is required.";
+    }
 
     return nextErrors;
   };
@@ -145,26 +204,56 @@ const AddProductPage = ({ onBack }) => {
     setSubmitting(true);
 
     try {
-      await apiRequest("/api/product/create", {
-        method: "POST",
-        body: JSON.stringify(payload),
-      });
-      alert("Product created successfully");
+      await apiRequest(
+        isUpdateMode ? `/api/product/${productId}` : "/api/product/create",
+        {
+          method: isUpdateMode ? "PATCH" : "POST",
+          body: JSON.stringify(payload),
+        },
+      );
+
+      alert(
+        isUpdateMode
+          ? "Product updated successfully"
+          : "Product created successfully",
+      );
       onBack();
     } catch (error) {
       console.error(error);
-      alert(error.message || "Failed to create product");
+      alert(
+        error.message || `Failed to ${isUpdateMode ? "update" : "create"} product`,
+      );
     } finally {
       setSubmitting(false);
     }
   };
+
+  if (loadingProduct) {
+    return (
+      <div className="product-form-page">
+        <div className="product-form-toolbar">
+          <div>
+            <p>Catalog inventory</p>
+            <h2>Loading Product</h2>
+          </div>
+          <button className="product-form-back" type="button" onClick={onBack}>
+            Back to Products
+          </button>
+        </div>
+
+        <section className="product-form-card">
+          <p className="product-form-loading">Fetching product details...</p>
+        </section>
+      </div>
+    );
+  }
 
   return (
     <form className="product-form-page" onSubmit={handleSubmit}>
       <div className="product-form-toolbar">
         <div>
           <p>Catalog inventory</p>
-          <h2>Add Product</h2>
+          <h2>{isUpdateMode ? "Update Product" : "Add Product"}</h2>
         </div>
         <button className="product-form-back" type="button" onClick={onBack}>
           Back to Products
@@ -328,7 +417,13 @@ const AddProductPage = ({ onBack }) => {
             type="submit"
             disabled={submitting}
           >
-            {submitting ? "Saving..." : "Save Product"}
+            {submitting
+              ? isUpdateMode
+                ? "Updating..."
+                : "Saving..."
+              : isUpdateMode
+                ? "Update Product"
+                : "Save Product"}
           </button>
         </div>
       </section>

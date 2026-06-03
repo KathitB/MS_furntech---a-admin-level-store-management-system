@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useMemo } from "react";
 import ReactTable from "../ui/ReactTable";
 import "./Customers.scss";
+import AddCustomerModal from "./AddCustomerModal";
 
 export const metricCards = [
   {
@@ -117,7 +118,13 @@ const formatAmount = (amount) =>
   }).format(amount);
 
 const Customers = ({ searchTerm = "", onCustomerSelect }) => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState("create");
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
   const filteredCustomers = useMemo(() => {
+    // const [modalOpen, setModalOpen] = useState(false);
+    // const [modalMode, setModalMode] = useState("create");
+
     const query = searchTerm.trim().toLowerCase();
 
     return customerLTVDetails.filter((customer) => {
@@ -127,7 +134,7 @@ const Customers = ({ searchTerm = "", onCustomerSelect }) => {
       const matchesSearch =
         !query ||
         [
-          customer.Id,
+          customer.id,
           customer.name,
           customer.email,
           customer.city,
@@ -136,7 +143,7 @@ const Customers = ({ searchTerm = "", onCustomerSelect }) => {
           customer.cashback,
           customer.tier,
           customer.joined,
-        ].some((value) => value.toLowerCase().includes(query));
+        ].some((value) => String(value).toLowerCase().includes(query));
 
       return matchesSearch;
     });
@@ -283,8 +290,38 @@ const Customers = ({ searchTerm = "", onCustomerSelect }) => {
     [],
   );
 
+  const openCreateModal = () => {
+    setModalMode("create");
+    setSelectedCustomer(null);
+    setModalOpen(true);
+  };
+
+  const openEditModal = (customer) => {
+    setModalMode("update");
+    setSelectedCustomer(customer);
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setSelectedCustomer(null);
+    setModalMode("create");
+  };
+
   return (
     <div className="customers-page">
+      <div className="categories-toolbar">
+        <div>
+          {/* <p>Primary navigation, filters, materials, and catalog campaigns.</p>ss */}
+          {/* <strong>
+            {loading ? "Loading..." : `${activeCount} categories`}
+          </strong> */}
+        </div>
+        <button type="button" onClick={openCreateModal}>
+          <span>+</span>
+          Add Customer
+        </button>
+      </div>
       <section className="customer-metrics">
         {metricCards.map((card) => (
           <article className="customer-metric-card" key={card.title}>
@@ -315,6 +352,17 @@ const Customers = ({ searchTerm = "", onCustomerSelect }) => {
           onRowClick={onCustomerSelect}
         />
       </div>
+
+      <AddCustomerModal
+        isOpen={modalOpen}
+        onClose={handleCloseModal}
+        onSubmit={(data) => {
+          console.log(data);
+          handleCloseModal();
+        }}
+        mode={modalMode}
+        customer={selectedCustomer}
+      />
     </div>
   );
 };
