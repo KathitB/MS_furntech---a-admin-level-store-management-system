@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import ReactTable from "../ui/ReactTable";
 import { requestNotificationPermission } from "../../notification";
 import "./Notifications.scss";
+import { toast } from "react-toastify";
 
 const activationAreas = [
   "North Sector",
@@ -186,19 +187,22 @@ const Notifications = ({ searchTerm = "" }) => {
         status: "Sent",
       };
 
-      const response = await fetch("http://localhost:5000/api/notifications/send-notification", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        "http://localhost:5000/api/notifications/send-notification",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: notificationData.title,
+            description: notificationData.description,
+            area: notificationData.area,
+            status: notificationData.status,
+            token,
+          }),
         },
-        body: JSON.stringify({
-          title: notificationData.title,
-          description: notificationData.description,
-          area: notificationData.area,
-          status: notificationData.status,
-          token,
-        }),
-      });
+      );
 
       const data = await response.json();
 
@@ -208,12 +212,12 @@ const Notifications = ({ searchTerm = "" }) => {
 
       setNotifications((prev) => [...prev, notificationData]);
 
-      alert("Notification sent successfully");
+      toast.success("Notification sent successfully");
 
       closeModal();
     } catch (error) {
       console.log(error);
-      alert(error.message || "Failed to send notification");
+      toast.error(error.message || "Failed to send notification");
     } finally {
       setSending(false);
     }

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { apiRequest } from "../api/api";
 import "./AddProductPage.scss";
+import { toast } from "react-toastify";
 
 const EMPTY_FORM = {
   name: "",
@@ -89,7 +90,7 @@ const AddProductPage = ({ productId = "", initialProduct = null, onBack }) => {
   const [loadingCategories, setLoadingCategories] = useState(true);
   const [loadingProduct, setLoadingProduct] = useState(Boolean(productId));
   const [categoryError, setCategoryError] = useState("");
-  const [errors, setErrors] = useState({});
+  // const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
@@ -133,7 +134,7 @@ const AddProductPage = ({ productId = "", initialProduct = null, onBack }) => {
         }
       } catch (error) {
         console.error(error);
-        alert(error.message || "Failed to load product");
+        toast.error(error.message || "Failed to load product");
         onBack();
       } finally {
         setLoadingProduct(false);
@@ -212,7 +213,7 @@ const AddProductPage = ({ productId = "", initialProduct = null, onBack }) => {
         },
       );
 
-      alert(
+      toast.success(
         isUpdateMode
           ? "Product updated successfully"
           : "Product created successfully",
@@ -220,8 +221,9 @@ const AddProductPage = ({ productId = "", initialProduct = null, onBack }) => {
       onBack();
     } catch (error) {
       console.error(error);
-      alert(
-        error.message || `Failed to ${isUpdateMode ? "update" : "create"} product`,
+      toast.error(
+        error.message ||
+          `Failed to ${isUpdateMode ? "update" : "create"} product`,
       );
     } finally {
       setSubmitting(false);

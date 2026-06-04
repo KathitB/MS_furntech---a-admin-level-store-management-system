@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import productFallback from "../../assets/item1.png";
 import { apiRequest } from "../api/api";
 import deleteIcon from "../../assets/delete-2-svgrepo-com (1).svg";
+import { toast } from "react-toastify";
 
 const getProductsFromResponse = (response) =>
   response?.data?.products || response?.products || [];
@@ -62,7 +63,7 @@ const Products = ({ searchTerm = "" }) => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  // const [error, setError] = useState("");
   const [productToDelete, setProductToDelete] = useState(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -74,7 +75,8 @@ const Products = ({ searchTerm = "" }) => {
         setProducts(getProductsFromResponse(response).map(formatProduct));
       } catch (err) {
         console.error(err);
-        setError("Failed to load products. Please try again.");
+        // setError("Failed to load products. Please try again.");
+        toast.error("Failed to load products. Please try again.");
       } finally {
         setLoading(false);
       }
@@ -136,10 +138,10 @@ const Products = ({ searchTerm = "" }) => {
         prev.filter((product) => product.id !== productToDelete.id),
       );
       setProductToDelete(null);
-      alert("Product deleted successfully");
+      toast.success("Product deleted successfully");
     } catch (err) {
       console.error("Failed to delete Product:", err);
-      alert(err.message || "Failed to delete Product");
+      toast.error(err.message || "Failed to delete Product");
     } finally {
       setDeleteLoading(false);
     }

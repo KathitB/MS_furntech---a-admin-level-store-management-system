@@ -144,6 +144,7 @@ import { apiRequest } from "../api/api";
 import editIcon from "../../assets/edit-pen-2-svgrepo-com.svg";
 import deleteIcon from "../../assets/delete-2-svgrepo-com (1).svg";
 import "./Team.scss";
+import { toast } from "react-toastify";
 
 const Team = ({ searchTerm = "" }) => {
   const [members, setMembers] = useState([]);
@@ -288,11 +289,11 @@ const Team = ({ searchTerm = "" }) => {
 
       setModalOpen(false);
 
-      alert("User created successfully");
+      toast.success("User created successfully");
     } catch (error) {
       console.error("Failed to create user:", error);
 
-      alert(error.message || "Failed to create user");
+      toast.error(error.message || "Failed to create user");
     }
   };
 
@@ -337,10 +338,10 @@ const Team = ({ searchTerm = "" }) => {
       );
 
       handleCloseModal();
-      alert("User updated successfully");
+      toast.success("User updated successfully");
     } catch (error) {
       console.error("Failed to update user:", error);
-      alert(error.message || "Failed to update user");
+      toast.error(error.message || "Failed to update user");
       throw error;
     }
   };
@@ -372,10 +373,10 @@ const Team = ({ searchTerm = "" }) => {
         prev.filter((member) => member.id !== memberToDelete.id),
       );
       setMemberToDelete(null);
-      alert("User deleted successfully");
+      toast.success("User deleted successfully");
     } catch (error) {
       console.error("Failed to delete user:", error);
-      alert(error.message || "Failed to delete user");
+      toast.error(error.message || "Failed to delete user");
     } finally {
       setDeleteLoading(false);
     }

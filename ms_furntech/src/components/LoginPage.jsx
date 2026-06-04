@@ -8,6 +8,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginWithCredentials } from "./Redux/Slice";
+import { toast } from "react-toastify";
 
 export default function LoginPage() {
   //   const loginWithCredentials = useAuthsStore(
@@ -21,7 +22,7 @@ export default function LoginPage() {
   const [error, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [message, setMessage] = useState("");
+  // const [message, setMessage] = useState("");
 
   const dispatch = useDispatch();
 
@@ -32,7 +33,7 @@ export default function LoginPage() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setErrors((prev) => ({ ...prev, [name]: "" }));
-    setMessage("");
+    // setMessage("");
     setForm((prev) => ({
       ...prev,
       [name]: value,
@@ -59,7 +60,8 @@ export default function LoginPage() {
 
     if (Object.keys(nextErrors).length > 0) {
       setErrors(nextErrors);
-      setMessage("Please fix the highlighted fields.");
+      // setMessage("Please fix the highlighted fields.");
+      toast.error("Please fix the highlighted fields.");
       return;
     }
 
@@ -83,13 +85,15 @@ export default function LoginPage() {
         }),
       ).unwrap();
 
-      setMessage("Welcome back to Furna.");
+      // setMessage("Welcome back to Furna.");
+      toast.success("Welcome back to Furna.");
 
       navigate("/dashboard");
     } catch (error) {
       console.error(error);
 
-      setMessage(error || "Unable to log in. Please try again.");
+      // setMessage(error || "Unable to log in. Please try again.");
+      toast.error(error || "Unable to log in. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -160,7 +164,7 @@ export default function LoginPage() {
               <span className={styles.errorText}>{error.password}</span>
             )}
           </label>
-          {message && (
+          {/* {message && (
             <p
               className={
                 error.email || error.password
@@ -170,7 +174,7 @@ export default function LoginPage() {
             >
               {message}
             </p>
-          )}
+          )} */}
           <button
             type="submit"
             className={styles.loginButton}

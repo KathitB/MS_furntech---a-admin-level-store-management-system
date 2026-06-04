@@ -463,6 +463,7 @@ import ReactTable from "../ui/ReactTable";
 import AddCategoryModal from "./AddCategoryModal";
 import editIcon from "../../assets/edit-pen-2-svgrepo-com.svg";
 import deleteIcon from "../../assets/delete-2-svgrepo-com (1).svg";
+import { toast } from "react-toastify";
 
 const designStyles = [
   "Mid-Century Modern",
@@ -529,7 +530,8 @@ const Categories = ({ searchTerm = "" }) => {
   });
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  // const [error, setError] = useState(null);
+
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState("create");
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -560,7 +562,8 @@ const Categories = ({ searchTerm = "" }) => {
         setCategories(formatted);
       } catch (err) {
         console.error(err);
-        setError("Failed to load categories. Please try again.");
+        // setError("Failed to load categories. Please try again.");
+        toast.error("Failed to load categories. Please try again.");
       } finally {
         setLoading(false);
       }
@@ -603,10 +606,12 @@ const Categories = ({ searchTerm = "" }) => {
 
       setCategories((prev) => [...prev, createdCategory]);
       handleCloseModal();
-      alert("Category created successfully");
+      // alert("Category created successfully");
+      toast.success("Category created successfully");
     } catch (err) {
       console.error("Failed to create category:", err);
-      alert(err.message || "Failed to create category");
+      // alert(err.message || "Failed to create category");
+      toast.error(err.message || "Failed to create category");
       throw err;
     }
   };
@@ -636,10 +641,13 @@ const Categories = ({ searchTerm = "" }) => {
         ),
       );
       handleCloseModal();
-      alert("Category updated successfully");
+      // alert("Category updated successfully");
+      toast.success("Category updated successfully");
     } catch (err) {
       console.error("Failed to update category:", err);
-      alert(err.message || "Failed to update category");
+      // alert(err.message || "Failed to update category");
+      toast.error(err.message || "Failed to update category");
+
       throw err;
     }
   };
@@ -658,10 +666,12 @@ const Categories = ({ searchTerm = "" }) => {
         prev.filter((category) => category.id !== categoryToDelete.id),
       );
       setCategoryToDelete(null);
-      alert("Category deleted successfully");
+      // alert("Category deleted successfully");
+      toast.success("Category deleted successfully");
     } catch (err) {
       console.error("Failed to delete category:", err);
-      alert(err.message || "Failed to delete category");
+      // alert(err.message || "Failed to delete category");
+      toast.error(err.message || "Failed to delete category");
     } finally {
       setDeleteLoading(false);
     }
@@ -715,6 +725,11 @@ const Categories = ({ searchTerm = "" }) => {
 
   const columns = useMemo(
     () => [
+      {
+        id: "serialNumber",
+        header: "SR.NO",
+        cell: ({ row }) => row.index + 1,
+      },
       {
         accessorKey: "name",
         header: "Category",
@@ -818,19 +833,19 @@ const Categories = ({ searchTerm = "" }) => {
           </div>
         )}
 
-        {error && !loading && (
+        {/* {error && !loading && (
           <div className="categories-state categories-state--error">
             <p>{error}</p>
           </div>
-        )}
+        )} */}
 
-        {!loading && !error && visibleCategories.length === 0 && (
+        {!loading && visibleCategories.length === 0 && (
           <div className="categories-state">
             <p>No categories found{query ? ` for "${searchTerm}"` : ""}.</p>
           </div>
         )}
 
-        {!loading && !error && visibleCategories.length > 0 && (
+        {!loading && visibleCategories.length > 0 && (
           // <div className="room-category-grid">
           //   {visibleCategories.map((category) => (
           //     <article className="room-category-card" key={category.id}>

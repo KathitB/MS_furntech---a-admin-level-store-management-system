@@ -112,6 +112,11 @@ const Orders = ({ searchTerm = "", onOrderSelect }) => {
   const columns = useMemo(
     () => [
       {
+        id: "serialNumber",
+        header: "SR.NO",
+        cell: ({ row }) => row.index + 1,
+      },
+      {
         accessorKey: "orderId",
         header: "ORDER ID",
         cell: ({ getValue }) => (
