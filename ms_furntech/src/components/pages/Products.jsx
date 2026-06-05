@@ -159,13 +159,13 @@ const Products = ({ searchTerm = "" }) => {
         </button>
       </div>
 
-      {error && (
+      {/* {error && (
         <div className="categories-state categories-state--error">
           <p>{error}</p>
         </div>
-      )}
+      )} */}
 
-      {!loading && !error && visibleProducts.length === 0 && (
+      {!loading && visibleProducts.length === 0 && (
         <div className="categories-state">
           <p>No products found{searchTerm ? ` for "${searchTerm}"` : ""}.</p>
         </div>
@@ -187,7 +187,6 @@ const Products = ({ searchTerm = "" }) => {
           ))}
 
         {!loading &&
-          !error &&
           visibleProducts.map((product) => (
             <article className="offer-banner-card" key={product.id}>
               <div className="offer-banner-card__image">

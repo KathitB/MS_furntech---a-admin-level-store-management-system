@@ -90,7 +90,7 @@ const AddProductPage = ({ productId = "", initialProduct = null, onBack }) => {
   const [loadingCategories, setLoadingCategories] = useState(true);
   const [loadingProduct, setLoadingProduct] = useState(Boolean(productId));
   const [categoryError, setCategoryError] = useState("");
-  // const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {

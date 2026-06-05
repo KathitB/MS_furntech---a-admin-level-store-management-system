@@ -1,8 +1,12 @@
-import React, { useMemo } from "react";
-import Banner1 from "../../assets/banner1.png";
+import React, { useMemo, useState, useEffect } from "react";
+import BannerFallBack from "../../assets/banner1.png";
 import Banner2 from "../../assets/banner2.png";
 import Banner3 from "../../assets/banner3.png";
 import "./OfferBanner.scss";
+// import "./AddOfferBannerModal";
+import AddOfferBannerModal from "./AddOfferBannerModal";
+import { toast } from "react-toastify";
+import { apiRequest } from "../api/api";
 
 const banners = [
   {
@@ -12,7 +16,7 @@ const banners = [
     subtitle: "Up to 30% off curated living rooms",
     dates: "Jan 5 - Feb 14, 2026",
     status: "Live",
-    image: Banner1,
+    image: BannerFallBack,
   },
   {
     id: "catalog-top",
@@ -34,7 +38,112 @@ const banners = [
   },
 ];
 
+const getBannersFromResponse = (response) =>
+  response?.data?.banners || response?.banners || [];
+
+const getBannerStatus = (banner) => {
+  if (!banner.status) return "Inactive";
+  return "Active";
+};
+
+// const formatBanner = (banner) => {
+//   // const quantity = Number(product.productQuantity) || 0;
+//   const status = getProductStatus(product);
+//   // const category =
+//   //   product.categoryId?.name ||
+//   //   product.categoryName ||
+//   //   product.categoryId ||
+//   //   "";
+
+//   return {
+//     id: banner._id || bannner.id || banner.productCode,
+//     title: product.title || "Untitled Banner",
+//     // category,
+//     // title: product.productCode || "No product code",
+//     // subtitle:
+//     //   product.description || product.productMaterial || "No description added",
+//     // dates: `Qty ${quantity} · ${formatCurrency(product.productPrice)}`,
+//     // priceFormatted: formatCurrency(product.productPrice),
+//     // stockLabel: `${quantity} in stock`,
+//     status,
+//     image: product.bannerImage || BannerFallBack,
+//     // material: product.productMaterial || "",
+//     // code: product.productCode || "",
+//     // source: product,
+//   };
+// };
+
+const formatBanner = (banner) => ({
+  id: banner._id || banner.id,
+  title: banner.title || "Untitled Banner",
+  subtitle: banner.linkUrl || "",
+  dates: banner.createdAt
+    ? new Date(banner.createdAt).toLocaleDateString()
+    : "",
+  status: getBannerStatus(banner),
+  image: banner.imageUrl || BannerFallBack,
+  source: banner,
+});
+
 const OfferBanner = ({ searchTerm = "" }) => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState("create");
+  const [selectedBanner, setSelectedBanner] = useState(null);
+  const [banners, setBanners] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // useEffect(() => {
+  //   const fetchBanners = async () => {
+  //     try {
+  //       const response = await apiRequest("/api/banner/all");
+  //       setBanners(getBannersFromResponse(response).map(formatBanner));
+  //     } catch (err) {
+  //       console.error(err);
+  //       // setError("Failed to load products. Please try again.");
+  //       toast.error("Failed to load banners. Please try again.");
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchBanners();
+  // }, []);
+
+  useEffect(() => {
+    const fetchBanners = async () => {
+      try {
+        const response = await apiRequest("/api/banner/all");
+
+        setBanners(getBannersFromResponse(response).map(formatBanner));
+      } catch (err) {
+        console.error(err);
+        toast.error("Failed to load banners.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBanners();
+  }, []);
+
+  // const visibleBanners = useMemo(() => {
+  //   const query = searchTerm.trim().toLowerCase();
+
+  //   if (!query) {
+  //     return banners;
+  //   }
+
+  //   return banners.filter((banner) =>
+  //     [
+  //       // banner.label,
+  //       banner.title,
+  //       // banner.subtitle,
+  //       // banner.dates,
+  //       banner.status,
+  //     ].some((value) => value.toLowerCase().includes(query)),
+  //   );
+  // }, [searchTerm]);
+
   const visibleBanners = useMemo(() => {
     const query = searchTerm.trim().toLowerCase();
 
@@ -43,17 +152,34 @@ const OfferBanner = ({ searchTerm = "" }) => {
     }
 
     return banners.filter((banner) =>
-      [banner.label, banner.title, banner.subtitle, banner.dates, banner.status].some(
-        (value) => value.toLowerCase().includes(query)
-      )
+      [banner.title, banner.subtitle, banner.status]
+        .filter(Boolean)
+        .some((value) => value.toString().toLowerCase().includes(query)),
     );
-  }, [searchTerm]);
+  }, [banners, searchTerm]);
 
+  const openCreateModal = () => {
+    setModalMode("create");
+    setSelectedBanner(null);
+    setModalOpen(true);
+  };
+
+  const openEditModal = (banner) => {
+    setModalMode("update");
+    setSelectedBanner(banner);
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setSelectedBanner(null);
+    setModalMode("create");
+  };
   return (
     <div className="offer-banner-page">
       <div className="offer-banner-toolbar">
         <p>Magazine-style banners shown across the customer app.</p>
-        <button type="button">
+        <button type="button" onClick={openCreateModal}>
           <span>+</span>
           New Banner
         </button>
@@ -93,7 +219,18 @@ const OfferBanner = ({ searchTerm = "" }) => {
                     <circle cx="12" cy="12" r="2.5" />
                   </svg>
                 </button>
-                <button type="button" aria-label={`Edit ${banner.title}`}>
+                {/* <button type="button" aria-label={`Edit ${banner.title}`}>
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M4 20h4l11-11a2.8 2.8 0 0 0-4-4L4 16v4z" />
+                    <path d="M13.5 6.5l4 4" />
+                  </svg>
+                </button> */}
+
+                <button
+                  type="button"
+                  aria-label={`Edit ${banner.title}`}
+                  onClick={() => openEditModal(banner)}
+                >
                   <svg viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M4 20h4l11-11a2.8 2.8 0 0 0-4-4L4 16v4z" />
                     <path d="M13.5 6.5l4 4" />
@@ -107,12 +244,26 @@ const OfferBanner = ({ searchTerm = "" }) => {
           </article>
         ))}
 
-        <button className="offer-banner-compose" type="button">
+        <button
+          className="offer-banner-compose"
+          type="button"
+          onClick={openCreateModal}
+        >
           <span>+</span>
           <strong>Compose a new banner</strong>
           <small>Drop an image, add copy, schedule</small>
         </button>
       </section>
+
+      <AddOfferBannerModal
+        isOpen={modalOpen}
+        onClose={handleCloseModal}
+        // onSubmit={
+        //   modalMode === "update" ? handleUpdateCustomer : handleCreateCustomer
+        // }
+        mode={modalMode}
+        customer={selectedBanner}
+      />
     </div>
   );
 };
