@@ -25,10 +25,12 @@ import PageShell from "./components/PageShell";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Notification from "./components/Notification";
 
 function App() {
   return (
     <BrowserRouter>
+      <Notification />
       <ToastContainer
         position="top-right"
         autoClose={3000}

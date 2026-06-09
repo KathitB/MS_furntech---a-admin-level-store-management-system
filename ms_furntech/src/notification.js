@@ -36,6 +36,7 @@ export const requestNotificationPermission = async () => {
 
       console.log("FCM Token:", token);
       localStorage.setItem("fcmToken", token);
+      localStorage.setItem("FCMToken", token);
 
       return token;
     }

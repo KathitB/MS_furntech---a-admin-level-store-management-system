@@ -140,15 +140,16 @@ const initialState = {
 export const loginWithCredentials = createAsyncThunk(
   "auth/loginWithCredentials",
 
-  async ({ email, password }, { rejectWithValue }) => {
+  async ({ email, password, devicetoken }, { rejectWithValue }) => {
     try {
+      const payload = { email, password };
+      if (devicetoken) {
+        payload.devicetoken = devicetoken;
+      }
       const response = await apiRequest("/api/user/login", {
         method: "POST",
 
-        body: JSON.stringify({
-          email,
-          password,
-        }),
+        body: JSON.stringify(payload),
       });
 
       return response;

@@ -78,10 +78,12 @@ export default function LoginPage() {
     setIsSubmitting(true);
 
     try {
+      const fcmToken = localStorage.getItem("FCMToken") || localStorage.getItem("fcmToken") || "";
       await dispatch(
         loginWithCredentials({
           email: emailValue,
           password: form.password,
+          devicetoken: fcmToken,
         }),
       ).unwrap();
 

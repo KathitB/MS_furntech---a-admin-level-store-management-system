@@ -6,6 +6,13 @@ router.post("/send-notification", async (req, res) => {
   try {
     const { title, description, token } = req.body;
 
+    if (!token) {
+      return res.status(400).json({
+        success: false,
+        error: "FCM token is required",
+      });
+    }
+
     const message = {
       notification: {
         title,
@@ -21,7 +28,7 @@ router.post("/send-notification", async (req, res) => {
       response,
     });
   } catch (error) {
-    console.log(error);
+    console.error("FCM Send Error:", error);
 
     res.status(500).json({
       success: false,

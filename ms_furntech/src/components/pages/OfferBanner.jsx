@@ -7,6 +7,7 @@ import "./OfferBanner.scss";
 import AddOfferBannerModal from "./AddOfferBannerModal";
 import { toast } from "react-toastify";
 import { apiRequest } from "../api/api";
+import deleteIcon from "../../assets/delete-2-svgrepo-com (1).svg";
 
 const banners = [
   {
@@ -81,7 +82,8 @@ const formatBanner = (banner) => ({
     ? new Date(banner.createdAt).toLocaleDateString()
     : "",
   status: getBannerStatus(banner),
-  image: banner.imageUrl || BannerFallBack,
+  imageFile: null,
+  image: banner.imageUrl,
   source: banner,
 });
 
@@ -91,6 +93,8 @@ const OfferBanner = ({ searchTerm = "" }) => {
   const [selectedBanner, setSelectedBanner] = useState(null);
   const [banners, setBanners] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [bannerToDelete, setBannerToDelete] = useState(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   // useEffect(() => {
   //   const fetchBanners = async () => {
@@ -165,6 +169,7 @@ const OfferBanner = ({ searchTerm = "" }) => {
   };
 
   const openEditModal = (banner) => {
+    console.log("SelectedBanner:", banner);
     setModalMode("update");
     setSelectedBanner(banner);
     setModalOpen(true);
@@ -174,6 +179,85 @@ const OfferBanner = ({ searchTerm = "" }) => {
     setModalOpen(false);
     setSelectedBanner(null);
     setModalMode("create");
+  };
+
+  const handleCreateBanner = async (payload) => {
+    try {
+      const response = await apiRequest("/api/banner/create", {
+        method: "POST",
+        body: JSON.stringify(payload),
+      });
+
+      const createdBanner = formatBanner(
+        response?.data || {
+          ...payload,
+          _id: crypto.randomUUID(),
+          createdAt: new Date().toISOString(),
+        },
+      );
+
+      setBanners((prev) => [...prev, createdBanner]);
+
+      toast.success("Banner created successfully");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to create banner");
+      throw err;
+    }
+  };
+
+  const handleUpdateBanner = async (payload) => {
+    if (!selectedBanner) return;
+
+    try {
+      const response = await apiRequest(`/api/banner/${selectedBanner.id}`, {
+        method: "PATCH",
+        body: JSON.stringify(payload),
+      });
+
+      const updatedBanner = formatBanner({
+        ...selectedBanner.source,
+        ...payload,
+        ...(response?.data || {}),
+      });
+
+      setBanners((prev) =>
+        prev.map((banner) =>
+          banner.id === selectedBanner.id ? updatedBanner : banner,
+        ),
+      );
+
+      toast.success("Banner updated successfully");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to update banner");
+      throw err;
+    }
+  };
+
+  const handleDeleteBanner = async () => {
+    if (!bannerToDelete) return;
+
+    setDeleteLoading(true);
+
+    try {
+      await apiRequest(`/api/banner/${bannerToDelete.id}`, {
+        method: "DELETE",
+      });
+
+      setBanners((prev) =>
+        prev.filter((banner) => banner.id !== bannerToDelete.id),
+      );
+
+      setBannerToDelete(null);
+
+      toast.success("Banner deleted successfully");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to delete banner");
+    } finally {
+      setDeleteLoading(false);
+    }
   };
   return (
     <div className="offer-banner-page">
@@ -236,9 +320,17 @@ const OfferBanner = ({ searchTerm = "" }) => {
                     <path d="M13.5 6.5l4 4" />
                   </svg>
                 </button>
-                <button className="offer-banner-card__manage" type="button">
-                  Manage
+                <button
+                  className="team-actions__button team-actions__button--delete"
+                  type="button"
+                  aria-label={`Edit ${banner.name}`}
+                  onClick={() => setBannerToDelete(banner)}
+                >
+                  <img src={deleteIcon} alt="" />
                 </button>
+                {/* <button className="offer-banner-card__manage" type="button">
+                  Manage
+                </button> */}
               </div>
             </div>
           </article>
@@ -258,12 +350,43 @@ const OfferBanner = ({ searchTerm = "" }) => {
       <AddOfferBannerModal
         isOpen={modalOpen}
         onClose={handleCloseModal}
-        // onSubmit={
-        //   modalMode === "update" ? handleUpdateCustomer : handleCreateCustomer
-        // }
+        onSubmit={
+          modalMode === "update" ? handleUpdateBanner : handleCreateBanner
+        }
+        // onSubmit={handleCreateBanner}
         mode={modalMode}
-        customer={selectedBanner}
+        banner={selectedBanner}
       />
+
+      {bannerToDelete && (
+        <div className="team-delete-overlay" role="dialog" aria-modal="true">
+          <div className="team-delete-modal">
+            <h3>Delete banner?</h3>
+            <p>
+              Are you sure you want to delete
+              <strong> {bannerToDelete.name}</strong>?
+            </p>
+            <div className="team-delete-modal__actions">
+              <button
+                className="team-delete-modal__cancel"
+                type="button"
+                onClick={() => setBannerToDelete(null)}
+                disabled={deleteLoading}
+              >
+                Cancel
+              </button>
+              <button
+                className="team-delete-modal__delete"
+                type="button"
+                onClick={handleDeleteBanner}
+                disabled={deleteLoading}
+              >
+                {deleteLoading ? "Deleting..." : "Delete"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -6,7 +6,9 @@ const EMPTY_FORM = {
   //   lastName: "",
   //   email: "",
   //   mobileNumber: "",
-  imageUrl: "",
+  imageFile: null,
+  imageUrl:
+    "https://codoid.s3.ap-south-1.amazonaws.com/workflow/fieldListTextIcon.svg",
   linkUrl: "",
   status: "active",
   //   state: "",
@@ -77,12 +79,28 @@ const AddOfferBannerModal = ({
     }
   };
 
+  // const handleChange = (event) => {
+  //   const { name, value } = event.target;
+
+  //   setForm((prev) => ({
+  //     ...prev,
+  //     [name]: value,
+  //   }));
+
+  //   if (errors[name]) {
+  //     setErrors((prev) => ({
+  //       ...prev,
+  //       [name]: "",
+  //     }));
+  //   }
+  // };
+
   const handleChange = (event) => {
-    const { name, value } = event.target;
+    const { name, value, files } = event.target;
 
     setForm((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: files ? files[0] : value,
     }));
 
     if (errors[name]) {
@@ -92,7 +110,6 @@ const AddOfferBannerModal = ({
       }));
     }
   };
-
   const validate = () => {
     const nextErrors = {};
 
@@ -100,8 +117,8 @@ const AddOfferBannerModal = ({
       nextErrors.title = "Title is required.";
     }
 
-    if (!form.imageUrl.trim()) {
-      nextErrors.imageUrl = "Image is required.";
+    if (!form.imageFile) {
+      nextErrors.imageFile = "Image is required.";
     }
 
     if (!form.linkUrl.trim()) {
@@ -145,10 +162,11 @@ const AddOfferBannerModal = ({
         // // mobileNumber: Number(form.mobileNumber),
         // mobileNumber: form.mobileNumber.trim(),
         imageUrl: form.imageUrl.trim(),
+        // imageFile: form.imageFile,
         linkUrl: form.linkUrl.trim(),
         status: form.status === "active",
         // state: form.state.trim(),
-        // postalCode: form.postalCode.trim(),
+        // postalCode: form.postalCode.trim(),  
         // country: form.country.trim(),
       });
 
@@ -204,6 +222,28 @@ const AddOfferBannerModal = ({
         autoComplete="off"
         ref={ref}
       />
+
+      {errors[name] && <span className="im-field__error">{errors[name]}</span>}
+    </div>
+  );
+
+  const renderFileInput = (label, name, required = false) => (
+    <div className={`im-field ${errors[name] ? "im-field--error" : ""}`}>
+      <label className="im-field__label" htmlFor={name}>
+        {label}
+        {required && <span style={{ color: "red", marginLeft: "4px" }}>*</span>}
+      </label>
+
+      <input
+        id={name}
+        className="im-field__input"
+        type="file"
+        name={name}
+        accept="image/*"
+        onChange={handleChange}
+      />
+
+      {form.imageFile && <small>{form.imageFile.name}</small>}
 
       {errors[name] && <span className="im-field__error">{errors[name]}</span>}
     </div>
@@ -266,7 +306,9 @@ const AddOfferBannerModal = ({
 
           {renderInput("Mobile Number", "mobileNumber", "tel", null, true)} */}
 
-          {renderInput("Image Url", "imageUrl", "text", null, true)}
+          {/* {renderInput("Image Url", "imageUrl", "text", null, true)} */}
+
+          {renderFileInput("Banner Image", "imageFile", true)}
 
           {renderInput("Banner Url", "linkUrl", "text", null, true)}
 
